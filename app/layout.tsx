@@ -25,6 +25,7 @@ const cinzel = Cinzel({
 });
 
 export const metadata: Metadata = {
+  metadataBase: new URL("https://m4gicm4n.com"),
   title: "Meet the Magic Man",
   description: "Experience mystical conversations with the Magic Man - an enchanting AI companion powered by ElevenLabs. Speak with the keeper of ancient wisdom and whimsical wonders.",
   keywords: ["AI", "conversational AI", "Magic Man", "ElevenLabs", "voice chat", "mystical", "wizard"],

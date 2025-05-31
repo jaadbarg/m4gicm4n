@@ -13,7 +13,6 @@ export default function MagicChat({ agentId }: MagicChatProps) {
   const [error, setError] = useState<string | null>(null);
   const [showMagicMan, setShowMagicMan] = useState(false);
   const [hasSpokenOnce, setHasSpokenOnce] = useState(false);
-  const [userInitiatedEnd, setUserInitiatedEnd] = useState(false);
   const [showHangupMessage, setShowHangupMessage] = useState(false);
   
   // Use refs to avoid closure issues in callbacks
@@ -37,7 +36,6 @@ export default function MagicChat({ agentId }: MagicChatProps) {
       setIsSessionStarted(false);
       setShowMagicMan(false);
       setHasSpokenOnce(false);
-      setUserInitiatedEnd(false);
       isSessionStartedRef.current = false;
       hasSpokenOnceRef.current = false;
       userInitiatedEndRef.current = false;
@@ -90,7 +88,6 @@ export default function MagicChat({ agentId }: MagicChatProps) {
 
   const endConversation = async () => {
     try {
-      setUserInitiatedEnd(true);
       userInitiatedEndRef.current = true;
       await conversation.endSession();
       setIsSessionStarted(false);
@@ -99,12 +96,6 @@ export default function MagicChat({ agentId }: MagicChatProps) {
     } catch (err) {
       console.error('Failed to end conversation:', err);
     }
-  };
-
-  // Test function to manually trigger hangup message
-  const testHangupMessage = () => {
-    setShowHangupMessage(true);
-    setTimeout(() => setShowHangupMessage(false), 4000);
   };
 
   return (
