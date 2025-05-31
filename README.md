@@ -1,36 +1,49 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Magic Man Chat App 🎩✨
 
-## Getting Started
+A mystical conversational AI chat application powered by ElevenLabs Conversational AI.
 
-First, run the development server:
+## Features
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
+- 🔮 Real-time voice conversation with the Magic Man
+- ✨ Beautiful magical UI with animated effects
+- 🎙️ WebSocket-based audio streaming
+- 💬 Voice-to-text transcription display
+- 🎨 Gradient purple/blue mystical theme
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+## Setup
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+1. **Install dependencies:**
+   ```bash
+   npm install
+   ```
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+2. **Environment Variables:**
+   The `.env.local` file has already been created with your API key.
 
-## Learn More
+3. **Run the development server:**
+   ```bash
+   npm run dev
+   ```
 
-To learn more about Next.js, take a look at the following resources:
+4. **Open your browser:**
+   Navigate to [http://localhost:3000](http://localhost:3000)
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+## How to Use
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+1. Click the glowing orb (🔮) to start a conversation with the Magic Man
+2. Allow microphone access when prompted by your browser
+3. The orb will pulse and show a microphone (🎙️) while the conversation is active
+4. Speak naturally - the Magic Man will listen and respond in real-time
+5. Click the orb again to end the conversation
+6. Your conversation transcript will appear in the chat window above
 
-## Deploy on Vercel
+## Technical Details
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+- **Framework:** Next.js 15 with App Router
+- **Styling:** Tailwind CSS with custom magical animations
+- **API Integration:** ElevenLabs Conversational AI
+- **Real-time Communication:** WebSocket for audio streaming
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+## Note
+
+Make sure to allow microphone permissions when prompted by your browser!
