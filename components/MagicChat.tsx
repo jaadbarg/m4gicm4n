@@ -1,6 +1,6 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, useRef } from 'react';
 import { useConversation } from '@elevenlabs/react';
 import MagicManAnimation from './MagicManAnimation';
 
@@ -13,25 +13,56 @@ export default function MagicChat({ agentId }: MagicChatProps) {
   const [error, setError] = useState<string | null>(null);
   const [showMagicMan, setShowMagicMan] = useState(false);
   const [hasSpokenOnce, setHasSpokenOnce] = useState(false);
+  const [userInitiatedEnd, setUserInitiatedEnd] = useState(false);
+  const [showHangupMessage, setShowHangupMessage] = useState(false);
+  
+  // Use refs to avoid closure issues in callbacks
+  const userInitiatedEndRef = useRef(false);
+  const hasSpokenOnceRef = useRef(false);
+  const isSessionStartedRef = useRef(false);
 
   const conversation = useConversation({
     onConnect: () => {
-      console.log('Connected to Magic Man');
       setError(null);
+      isSessionStartedRef.current = true;
     },
     onDisconnect: () => {
-      console.log('Disconnected from Magic Man');
+      // Check if this was agent-initiated (Magic Man hung up)
+      if (!userInitiatedEndRef.current && hasSpokenOnceRef.current) {
+        setShowHangupMessage(true);
+        setTimeout(() => setShowHangupMessage(false), 4000);
+      }
+      
+      // Reset everything
       setIsSessionStarted(false);
       setShowMagicMan(false);
       setHasSpokenOnce(false);
+      setUserInitiatedEnd(false);
+      isSessionStartedRef.current = false;
+      hasSpokenOnceRef.current = false;
+      userInitiatedEndRef.current = false;
     },
     onMessage: ({ message, source }: { message: string; source: 'user' | 'ai' }) => {
-      console.log('Message received:', message, 'from:', source);
+      // Check for dismissive/hangup messages from the agent
+      const dismissiveWords = ['goodbye', 'bye', 'done', 'ending', 'can\'t', 'won\'t', 'don\'t want', 'boring', 'waste'];
+      const isDismissive = dismissiveWords.some(word => message.toLowerCase().includes(word));
       
-      // Show magic man when he first speaks
-      if (source === 'ai' && !hasSpokenOnce) {
-        setShowMagicMan(true);
-        setHasSpokenOnce(true);
+      if (source === 'ai') {
+        if (!hasSpokenOnce) {
+          setShowMagicMan(true);
+          setHasSpokenOnce(true);
+          hasSpokenOnceRef.current = true;
+        }
+        
+        // If the message seems dismissive, prepare for potential hangup
+        if (isDismissive) {
+          setTimeout(() => {
+            if (!isSessionStartedRef.current && hasSpokenOnceRef.current && !userInitiatedEndRef.current) {
+              setShowHangupMessage(true);
+              setTimeout(() => setShowHangupMessage(false), 4000);
+            }
+          }, 1000);
+        }
       }
     },
     onError: (message: string, context?: unknown) => {
@@ -45,6 +76,7 @@ export default function MagicChat({ agentId }: MagicChatProps) {
       await navigator.mediaDevices.getUserMedia({ audio: true });
       await conversation.startSession({ agentId: agentId });
       setIsSessionStarted(true);
+      isSessionStartedRef.current = true;
       setError(null);
     } catch (err) {
       console.error('Failed to start conversation:', err);
@@ -58,6 +90,8 @@ export default function MagicChat({ agentId }: MagicChatProps) {
 
   const endConversation = async () => {
     try {
+      setUserInitiatedEnd(true);
+      userInitiatedEndRef.current = true;
       await conversation.endSession();
       setIsSessionStarted(false);
       setHasSpokenOnce(false);
@@ -67,10 +101,16 @@ export default function MagicChat({ agentId }: MagicChatProps) {
     }
   };
 
+  // Test function to manually trigger hangup message
+  const testHangupMessage = () => {
+    setShowHangupMessage(true);
+    setTimeout(() => setShowHangupMessage(false), 4000);
+  };
+
   return (
-    <div className="relative min-h-screen flex flex-col items-center justify-center p-8">
+    <div className="relative min-h-screen flex flex-col items-center justify-center p-8 md:p-16 lg:p-24">
       {/* Magic Man Animation - Enhanced and centered */}
-      <div className="relative z-20 mb-16 transition-all duration-1000 ease-out">
+      <div className="relative z-20 mb-16 md:mb-20 lg:mb-24 transition-all duration-1000 ease-out">
         <MagicManAnimation 
           isSpeaking={conversation.isSpeaking} 
           isVisible={showMagicMan}
@@ -114,7 +154,7 @@ export default function MagicChat({ agentId }: MagicChatProps) {
       )}
 
       {/* Main Control Interface */}
-      <div className="relative z-20 flex flex-col items-center space-y-8">
+      <div className="relative z-20 flex flex-col items-center space-y-8 md:space-y-12">
         {/* Primary Action Button */}
         {!isSessionStarted ? (
           <button
@@ -122,18 +162,22 @@ export default function MagicChat({ agentId }: MagicChatProps) {
             className="group relative"
           >
             {/* Outer glow ring */}
-            <div className="absolute -inset-4 bg-gradient-to-r from-purple-500/50 to-pink-500/50 rounded-full blur-xl group-hover:blur-2xl transition-all duration-300 animate-pulse"></div>
+            <div className="absolute -inset-3 md:-inset-4 bg-gradient-to-r from-purple-500/50 to-pink-500/50 rounded-full blur-xl group-hover:blur-2xl transition-all duration-300 animate-pulse"></div>
             
             {/* Main button */}
-            <div className="relative w-32 h-32 rounded-full bg-gradient-to-br from-purple-600 via-purple-700 to-purple-800 shadow-2xl border border-purple-400/30 group-hover:scale-110 transition-all duration-300">
+            <div className="relative w-24 h-24 md:w-32 md:h-32 rounded-full bg-gradient-to-br from-purple-600 via-purple-700 to-purple-800 shadow-2xl border border-purple-400/30 group-hover:scale-110 transition-all duration-300">
               {/* Inner glow */}
               <div className="absolute inset-2 rounded-full bg-gradient-to-t from-transparent via-purple-400/20 to-purple-300/40"></div>
               
-              {/* Icon */}
+              {/* Professional Power Icon */}
               <div className="relative z-10 w-full h-full flex items-center justify-center">
-                <div className="text-6xl filter drop-shadow-lg group-hover:scale-110 transition-transform duration-300">
-                  🔮
-                </div>
+                <svg 
+                  className="w-8 h-8 md:w-12 md:h-12 text-white filter drop-shadow-lg group-hover:scale-110 transition-transform duration-300" 
+                  fill="currentColor" 
+                  viewBox="0 0 24 24"
+                >
+                  <path d="M8 5v14l11-7z"/>
+                </svg>
               </div>
               
               {/* Animated border */}
@@ -146,18 +190,22 @@ export default function MagicChat({ agentId }: MagicChatProps) {
             className="group relative"
           >
             {/* Outer glow ring */}
-            <div className="absolute -inset-4 bg-gradient-to-r from-pink-500/50 to-red-500/50 rounded-full blur-xl group-hover:blur-2xl transition-all duration-300 animate-pulse"></div>
+            <div className="absolute -inset-3 md:-inset-4 bg-gradient-to-r from-pink-500/50 to-red-500/50 rounded-full blur-xl group-hover:blur-2xl transition-all duration-300 animate-pulse"></div>
             
             {/* Main button */}
-            <div className="relative w-32 h-32 rounded-full bg-gradient-to-br from-pink-600 via-pink-700 to-red-700 shadow-2xl border border-pink-400/30 group-hover:scale-110 transition-all duration-300">
+            <div className="relative w-24 h-24 md:w-32 md:h-32 rounded-full bg-gradient-to-br from-pink-600 via-pink-700 to-red-700 shadow-2xl border border-pink-400/30 group-hover:scale-110 transition-all duration-300">
               {/* Inner glow */}
               <div className="absolute inset-2 rounded-full bg-gradient-to-t from-transparent via-pink-400/20 to-pink-300/40"></div>
               
-              {/* Icon */}
+              {/* Professional Stop Icon */}
               <div className="relative z-10 w-full h-full flex items-center justify-center">
-                <div className="text-5xl filter drop-shadow-lg group-hover:scale-110 transition-transform duration-300">
-                  🎙️
-                </div>
+                <svg 
+                  className="w-6 h-6 md:w-8 md:h-8 text-white filter drop-shadow-lg group-hover:scale-110 transition-transform duration-300" 
+                  fill="currentColor" 
+                  viewBox="0 0 24 24"
+                >
+                  <rect x="6" y="6" width="12" height="12" rx="2"/>
+                </svg>
               </div>
               
               {/* Animated pulse */}
@@ -167,18 +215,35 @@ export default function MagicChat({ agentId }: MagicChatProps) {
         )}
         
         {/* Action Text */}
-        <div className="text-center space-y-2">
-          <p className="font-mono text-lg text-purple-200 tracking-wider">
-            {!isSessionStarted ? 'INITIATE MYSTICAL CONNECTION' : 'CONVERSATION ACTIVE'}
+        <div className="text-center space-y-2 px-4">
+          <p className="font-mono text-base md:text-lg text-purple-200 tracking-wider">
+            {!isSessionStarted ? 'INITIATE CONNECTION' : 'CONVERSATION ACTIVE'}
           </p>
-          <p className="font-sans text-sm text-purple-300/70 max-w-md mx-auto leading-relaxed">
+          <p className="font-sans text-sm md:text-base text-purple-300/70 max-w-sm md:max-w-md mx-auto leading-relaxed">
             {!isSessionStarted 
-              ? 'Press the crystal orb to begin your journey with the Magic Man'
-              : 'The Magic Man awaits your words. Press the orb to end the session.'
+              ? 'Press to begin your conversation with the Magic Man'
+              : 'Speaking with the Magic Man. Press to end session.'
             }
           </p>
         </div>
       </div>
+
+      {/* Hangup Message */}
+      {showHangupMessage && (
+        <div 
+          className="fixed top-0 left-0 w-full h-full flex items-center justify-center z-50 animate-fade-in-out px-4"
+          style={{ position: 'fixed', top: 0, left: 0, right: 0, bottom: 0, display: 'flex', alignItems: 'center', justifyContent: 'center' }}
+        >
+          <div className="bg-gradient-to-r from-red-500/30 to-orange-500/30 backdrop-blur-xl border-2 border-red-400/60 text-red-100 px-12 py-8 rounded-3xl shadow-2xl max-w-2xl text-center">
+            <div className="font-mono text-3xl md:text-4xl font-bold mb-4 tracking-wider">
+              DISMISSED!
+            </div>
+            <div className="font-sans text-xl md:text-2xl font-medium">
+              The Magic Man hung up on your ass
+            </div>
+          </div>
+        </div>
+      )}
 
       {/* Error Display */}
       {error && (

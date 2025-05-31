@@ -58,7 +58,7 @@ export default function Home() {
       </div>
 
       {/* Main Title Header */}
-      <div className="absolute top-0 left-0 right-0 z-10 p-8">
+      <div className="absolute top-0 left-0 right-0 z-10 p-8 md:p-12 lg:p-16">
         <div className="text-center">
           <h1 className="font-display text-6xl md:text-8xl font-bold bg-gradient-to-r from-purple-200 via-pink-200 to-purple-300 bg-clip-text text-transparent mb-4 tracking-wider drop-shadow-2xl">
             MAGIC MAN
