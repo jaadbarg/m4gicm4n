@@ -10,6 +10,8 @@ A mystical conversational AI chat application powered by ElevenLabs Conversation
 - 💬 Voice-to-text transcription display
 - 🎨 Gradient purple/blue mystical theme
 - 🎭 Animated pixel art Magic Man character that moves his mouth when speaking
+- 💨 Poof animation when Magic Man appears/disappears
+- 🎪 Character only appears after first response
 
 ## Setup
 
