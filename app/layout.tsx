@@ -1,20 +1,32 @@
 import type { Metadata } from "next";
-import { Geist, Geist_Mono } from "next/font/google";
+import { Inter, Orbitron, Cinzel } from "next/font/google";
 import "./globals.css";
 
-const geistSans = Geist({
-  variable: "--font-geist-sans",
+// Modern, clean font for body text
+const inter = Inter({
+  variable: "--font-inter",
   subsets: ["latin"],
+  display: "swap",
 });
 
-const geistMono = Geist_Mono({
-  variable: "--font-geist-mono",
+// Futuristic font for tech elements
+const orbitron = Orbitron({
+  variable: "--font-orbitron",
   subsets: ["latin"],
+  display: "swap",
+});
+
+// Elegant, mystical font for the title
+const cinzel = Cinzel({
+  variable: "--font-cinzel",
+  subsets: ["latin"],
+  weight: ["400", "500", "600", "700"],
+  display: "swap",
 });
 
 export const metadata: Metadata = {
   title: "Magic Man - Mystical Conversational AI",
-  description: "Chat with the Magic Man, a mystical keeper of wisdom powered by ElevenLabs AI",
+  description: "Chat with the Magic Man, a mystical dickhead",
 };
 
 export default function RootLayout({
@@ -25,7 +37,7 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body
-        className={`${geistSans.variable} ${geistMono.variable} antialiased`}
+        className={`${inter.variable} ${orbitron.variable} ${cinzel.variable} antialiased`}
       >
         {children}
       </body>

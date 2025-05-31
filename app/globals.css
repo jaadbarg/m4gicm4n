@@ -8,8 +8,9 @@
 @theme inline {
   --color-background: var(--background);
   --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
+  --font-sans: var(--font-inter);
+  --font-tech: var(--font-orbitron);
+  --font-display: var(--font-cinzel);
 }
 
 * {
@@ -53,4 +54,21 @@ body {
   image-rendering: pixelated;
   image-rendering: -moz-crisp-edges;
   image-rendering: crisp-edges;
+}
+
+/* Font utilities */
+.font-display {
+  font-family: var(--font-cinzel), serif;
+}
+
+.font-tech {
+  font-family: var(--font-orbitron), monospace;
+}
+
+.font-mono {
+  font-family: var(--font-orbitron), monospace;
+}
+
+.font-sans {
+  font-family: var(--font-inter), sans-serif;
 }

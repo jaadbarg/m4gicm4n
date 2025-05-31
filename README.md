@@ -1,17 +1,18 @@
-# Magic Man Chat App 🎩✨
+# Magic Man ✨ - Mystical AI Companion
 
-A mystical conversational AI chat application powered by ElevenLabs Conversational AI.
+A premium mystical conversational AI experience powered by ElevenLabs Conversational AI.
 
-## Features
+## ✨ Features
 
-- 🔮 Real-time voice conversation with the Magic Man
-- ✨ Beautiful magical UI with animated effects
-- 🎙️ WebSocket-based audio streaming
-- 💬 Voice-to-text transcription display
-- 🎨 Gradient purple/blue mystical theme
-- 🎭 Animated pixel art Magic Man character that moves his mouth when speaking
-- 💨 Poof animation when Magic Man appears/disappears
-- 🎪 Character only appears after first response
+- 🔮 **Real-time Voice Conversation** - Natural voice chat with the Magic Man
+- 🎭 **Animated Pixel Art Character** - Magic Man with mouth movement synced to speech
+- 💨 **Cinematic Poof Effects** - Magical appearance/disappearance animations
+- 🎨 **Triple-A Visual Experience** - Premium gradients, particle effects, and lighting
+- 🔤 **Professional Typography** - Custom font stack (Cinzel, Orbitron, Inter)
+- 🌟 **Enhanced Particle System** - Floating sparkles and dynamic background orbs
+- 📱 **Clean Minimal Interface** - Streamlined UI focused on the magical experience
+- 🎯 **Smart Character Logic** - Magic Man only appears after first AI response
+- 📊 **Real-time Status Indicators** - Connection and speaking status displays
 
 ## Setup
 
