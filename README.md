@@ -9,6 +9,7 @@ A mystical conversational AI chat application powered by ElevenLabs Conversation
 - 🎙️ WebSocket-based audio streaming
 - 💬 Voice-to-text transcription display
 - 🎨 Gradient purple/blue mystical theme
+- 🎭 Animated pixel art Magic Man character that moves his mouth when speaking
 
 ## Setup
 
