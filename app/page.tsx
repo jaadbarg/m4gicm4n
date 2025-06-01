@@ -66,7 +66,7 @@ export default function Home() {
           <div className="flex items-center justify-center space-x-4">
             <div className="h-px w-16 bg-gradient-to-r from-transparent to-purple-400"></div>
             <p className="font-mono text-purple-300/80 text-sm tracking-[0.3em] uppercase">
-              This guy's a dick
+              This guy&apos;s a dick
             </p>
             <div className="h-px w-16 bg-gradient-to-l from-transparent to-purple-400"></div>
           </div>
