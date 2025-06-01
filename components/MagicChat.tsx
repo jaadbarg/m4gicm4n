@@ -208,12 +208,12 @@ export default function MagicChat({ agentId }: MagicChatProps) {
         {/* Action Text */}
         <div className="text-center space-y-2 px-4">
           <p className="font-mono text-base md:text-lg text-purple-200 tracking-wider">
-            {!isSessionStarted ? 'INITIATE CONNECTION' : 'CONVERSATION ACTIVE'}
+            {!isSessionStarted ? 'REACH TO THE MAGIC MAN' : 'CONVERSATION ACTIVE'}
           </p>
           <p className="font-sans text-sm md:text-base text-purple-300/70 max-w-sm md:max-w-md mx-auto leading-relaxed">
             {!isSessionStarted 
-              ? 'Press to begin your conversation with the Magic Man'
-              : 'Speaking with the Magic Man. Press to end session.'
+              ? 'Pull the Magic Man from the Void'
+              : 'Magic Man is summoned. Press to end session.'
             }
           </p>
         </div>
